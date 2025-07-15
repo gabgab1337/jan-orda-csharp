@@ -12,11 +12,21 @@ namespace JanOrda.CSharp
     }
   }
 
-  class Pies : Zwierze
+  interface IZwierze
   {
-    public override void dajGlos()
+    void dajGlos();
+    void spij();
+  }
+
+  class Pies : IZwierze
+  {
+    public void dajGlos()
     {
       Console.WriteLine("Hau hau!");
+    }
+    public void spij()
+    {
+      Console.WriteLine("Zzzz spie tera");
     }
   }
 
