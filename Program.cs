@@ -2,6 +2,40 @@ using System;
 
 namespace JanOrda.CSharp
 {
+  abstract class Zwierze
+  {
+    public abstract void dajGlos();
+
+    public void spij()
+    {
+      Console.WriteLine("Zzzzzzzz...");
+    }
+  }
+
+  class Pies : Zwierze
+  {
+    public override void dajGlos()
+    {
+      Console.WriteLine("Hau hau!");
+    }
+  }
+
+  class Ptak : Zwierze
+  {
+    public override void dajGlos()
+    {
+      Console.WriteLine("*Odglosy spiewu*");
+    }
+  }
+
+  class Kot : Zwierze
+  {
+    public override void dajGlos()
+    {
+      Console.WriteLine("Miauuu");
+    }
+  }
+
   public class Program
   {
     public static void Main(string[] args)
