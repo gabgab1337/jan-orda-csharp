@@ -1,25 +1,63 @@
-﻿namespace ToDoApp
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+namespace ToDoApp
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
-        int count = 0;
+        private string _newTodoTitle;
+        public string NewTodoTitle
+        {
+            get => _newTodoTitle;
+            set
+            {
+                if (_newTodoTitle != value)
+                {
+                    _newTodoTitle = value;
+                    OnPropertyChanged();
+
+                    OnPropertyChanged(nameof(TitleCharacterCount));
+                    IsAddButtonEnabled = !string.IsNullOrWhiteSpace(value);
+                }
+            }
+        }
+
+        private bool _isAddButtonEnabled;
+        public bool IsAddButtonEnabled
+        {
+            get => _isAddButtonEnabled;
+            set
+            {
+                if(_isAddButtonEnabled != value)
+                {
+                    _isAddButtonEnabled = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string TitleCharacterCount => $"Liczba znaków: {NewTodoTitle?.Length ?? 0}";
 
         public MainPage()
         {
             InitializeComponent();
+            BindingContext = this;
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void OnClearedClicked(object sender, EventArgs e)
         {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            NewTodoTitle = string.Empty;
         }
-    }
 
+        #region INotifyPropertyChanged Implementation
+        // Implementujemy interfejs
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Tworzymy metodę do eventu
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+    }
 }
