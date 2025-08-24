@@ -17,7 +17,7 @@
             <Button
                 x:Name="bttn"
                 Text="Dodaj zadanie"
-                IsEnabled="{Binding AddToDoCommand}"
+                Command="{Binding AddToDoCommand}"
                 />
 
             <Label 
