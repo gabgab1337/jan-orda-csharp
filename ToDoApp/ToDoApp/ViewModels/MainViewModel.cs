@@ -10,6 +10,8 @@ namespace ToDoApp.ViewModels
     {
         public ObservableCollection<ToDoItem> ToDoItems { get; set; } = new ObservableCollection<ToDoItem>();
 
+        // public int ActiveTaskCount => ToDoItems.Count(item => !item.IsDone);
+        // public int CompletedTaskCount => ToDoItems.Count(item => item.IsDone);
         private string _newTodoTitle;
         public string NewTodoTitle
         {
@@ -27,10 +29,12 @@ namespace ToDoApp.ViewModels
         }
 
         public ICommand AddToDoCommand { get; }
+        public ICommand RemoveCompletedItemsCommand { get; }
 
         public MainViewModel()
         {
             AddToDoCommand = new Command(OnAddToDo, CanAddToDo);
+            RemoveCompletedItemsCommand = new Command(RemoveCompletedItems, CanRemoveCompletedItems);
         }
 
         private void OnAddToDo()
@@ -42,6 +46,20 @@ namespace ToDoApp.ViewModels
         private bool CanAddToDo()
         {
             return !string.IsNullOrWhiteSpace(NewTodoTitle);
+        }
+
+        private void RemoveCompletedItems()
+        {
+            var completedItems = ToDoItems.Where(item => item.IsDone).ToList();
+            foreach (var item in completedItems)
+            {
+                ToDoItems.Remove(item);
+            }
+        }
+
+        private bool CanRemoveCompletedItems()
+        {
+            return ToDoItems.Any(item => item.IsDone);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
