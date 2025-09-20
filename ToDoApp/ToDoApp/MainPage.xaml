@@ -12,7 +12,9 @@
             <Entry
                 x:Name="txtfield"
                 Placeholder="Dodaj nowe zadanie"
-                Text="{Binding NewTodoTitle, Mode=TwoWay}"/>
+                Text="{Binding NewTodoTitle, Mode=TwoWay}"
+                Completed="txtfield_Completed"
+                />
 
             <Button
                 x:Name="bttn"
@@ -37,12 +39,19 @@
                     <DataTemplate>
                         <HorizontalStackLayout Spacing="10" Padding="5">
                             <CheckBox IsChecked="{Binding IsDone}"/>
-                            <Label Text="{Binding Title}" VerticalOptions="Center" />
+                            <Label 
+                                Text="{Binding Title}" 
+                                VerticalOptions="Center" 
+                                TextDecorations="{Binding IsDone, Converter={StaticResource BoolToTextDecorationConverter}}"
+                                />
                         </HorizontalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
+            <HorizontalStackLayout Spacing="5">
+                <Button Text="Import" FontSize="Small"/>
+                <Button Text="Emport" FontSize="Small" Clicked="Export_Clicked"/> 
+            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 

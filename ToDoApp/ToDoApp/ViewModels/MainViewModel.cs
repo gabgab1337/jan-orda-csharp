@@ -13,6 +13,7 @@ namespace ToDoApp.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         private readonly string _saveFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, "todos.json");
+        
         public ObservableCollection<ToDoItem> ToDoItems { get; set; } = new ObservableCollection<ToDoItem>();
 
         // public int ActiveTaskCount => ToDoItems.Count(item => !item.IsDone);
@@ -50,6 +51,7 @@ namespace ToDoApp.ViewModels
             var json = JsonSerializer.Serialize(ToDoItems);
             File.WriteAllText(_saveFilePath, json);
             Debug.WriteLine("Zapisano");
+            Debug.WriteLine(_saveFilePath);
         }
 
         private void LoadToDoItems()
